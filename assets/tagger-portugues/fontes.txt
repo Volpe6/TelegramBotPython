@@ -1,0 +1,2 @@
+https://github.com/fmaruki/Nltk-Tagger-Portuguese
+https://github.com/inoueMashuu/POS-tagger-portuguese-nltk
