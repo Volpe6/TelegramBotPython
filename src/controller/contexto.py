@@ -3,6 +3,8 @@ from util.mensagem import Mensagem
 DEBUG = True
 
 class Contexto:
+    nome = 'contexto'
+
     __update        = None
     __texto_analise = None
     __termo         = ''
@@ -50,6 +52,9 @@ class Contexto:
         self.__chat_id = message.chat_id
 
     def _new_bot_message(self, msg):
+        if self.get_update() is None:
+            self.print_console(self.nome, Mensagem.get_mensagem(502))
+            return
         message = self.get_update().message.reply_text(msg)
         self.__message_id = message.message_id
         self.__chat_id = message.chat_id
