@@ -255,8 +255,6 @@ class Controller:
         for i, link in enumerate(resultado['url']):
             txt += '{}º - {}\n'.format((i + 1), link)
 
-        txt += Controller.RODAPE
-
         self._bot_message(txt)
 
     def _get_final_msg(self, tipo):
