@@ -159,13 +159,14 @@ class Controller:
             #self.__proxy_inicializado se essas conf ja foram carregadas nao precisam carregar
             #de novo
             return
+        
+        self.__proxy_inicializado = True
 
         data = gm.abir_arquivo_json(conf.ARQ_PROXY)
         #verifica se tem algum proxy
         if len(data) == 0:
             return
 
-        self.__proxy_inicializado = True
         self._print_console('definindo a configuracao de proxy')
         manager = self._get_manager_scrapy()
         
