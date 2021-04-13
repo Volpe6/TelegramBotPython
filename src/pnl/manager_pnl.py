@@ -260,7 +260,7 @@ class Manager:
         """
         usa a tecnica tf-idf. Dependendo do tamanho do texto pode ter um processamento lento.
         Aparenta mostrar uma desvantagem quando o texto informado é muito pequeno.
-        Sendo mais viavel a utilizacao da extracao. Quando o texto é muito pequeno, 
+        Sendo mais viavel a utilizacao da extracao_simples. Quando o texto é muito pequeno, 
         aparenta dar um peso maior as sentencas menores, que nao necessariamente é
         a sentenca mais importante
         """
@@ -305,20 +305,18 @@ class Manager:
         """
         pipeline = Pipeline()
         
-        txt       = texto
+        txt       = texto#texto forneceido pelo usuario
         stops     = pipeline.get_stop_words()
         sentencas = pipeline.sent_tokenize(txt)
         palavras  = pipeline.tokenize(txt.lower()) 
-        #remove stop words e stemiza as palavras
+        #remove stop words as palavras
         palavras_sem_stops  = [plvr for plvr in palavras if plvr not in stops]
-        stemming_palavras   = pipeline.stemming_all_tokens(palavras_sem_stops)
         frequencia          = pipeline.get_dict_ocorrencia_palavras(palavras_sem_stops)
-        frequencia_com_stem = pipeline.get_dict_ocorrencia_palavras(stemming_palavras)
 
         #################################
         #sentencas importantes
         ranking = defaultdict(int)
-        #popular dicionario de score(sem TF-IDF)
+        #ranqueia as sentenças
         for i, sentenca in enumerate(sentencas):
             for palavra in pipeline.tokenize(sentenca.lower()):
                 if palavra in frequencia:
@@ -340,12 +338,6 @@ class Manager:
             if tag == 'N' or tag == 'NPROP':
                 entidades_nomeadas.append(token)
         
-        #aqui eu pego as duas palavras mais comuns
-        # f = frequencia_com_stem.most_common()[:2]
-        # f = [word for word, freq in f]
-        #aqui eu junto as entidades nomeadas com as palavras mais comuns
-        # entidades_nomeadas = entidades_nomeadas + f
-        #aqui eu tranformo tudo em uma unica string
         txt_final = ' '.join(entidades_nomeadas[:6])
         self._print_console('finalizando extração de informacao')
         self._bot_message('...')
